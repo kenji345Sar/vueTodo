@@ -1,27 +1,26 @@
-<!-- ListRow.vue -->
 <template>
   <div>
-    <input type="checkbox" v-model="localChecked">
-    <span :style="localChecked ? 'text-decoration: line-through;' : ''">{{ title }}</span>
+    <input type="checkbox" :checked="checked" @change="handleChange">
+    <span :style="checked ? 'text-decoration: line-through;' : ''">{{ title }}</span>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent, toRefs } from 'vue';
+
+export default defineComponent({
   props: {
     title: String,
-    checked: Boolean
+    checked: Boolean,
   },
-  emits: ['update:checked'],
-  computed: {
-    localChecked: {
-      get() {
-        return this.checked;
-      },
-      set(value) {
-        this.$emit('update:checked', value);
-      }
-    }
-  }
-};
+  setup(props, { emit }) {
+    const { checked } = toRefs(props);
+
+    const handleChange = (event) => {
+      emit('update:checked', event.target.checked);
+    };
+
+    return { checked, handleChange };
+  },
+});
 </script>
