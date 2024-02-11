@@ -2,8 +2,7 @@
   <div>
     <ul>
       <li v-for="task in tasks" :key="task.id">
-        <input type="checkbox" v-model="task.checked">
-        <span :style="task.checked ? 'text-decoration: line-through;' : ''">{{ task.title }}</span>
+        <ListRow :title="task.title" :checked="task.checked" @update:checked="task.checked = $event"></ListRow>
       </li>
     </ul>
   </div>
@@ -11,8 +10,12 @@
 
 <script>
 import { ref } from 'vue';
+import ListRow from './components/ListRow.vue';
 
 export default {
+  components: {
+    ListRow
+  },
   setup() {
     const tasks = ref([
       { id: 1, title: "散歩", checked: true },
@@ -24,7 +27,3 @@ export default {
   },
 };
 </script>
-
-<style>
-/* 必要に応じてスタイルを追加 */
-</style>

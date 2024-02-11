@@ -1,20 +1,26 @@
+<!-- ListRow.vue -->
 <template>
-  <div @click="handleClick">
-    <span v-if="isCheck">☑︎</span>
-    <span v-else>□</span>
-    <span :style="{ textDecoration: isCheck ? 'line-through' : 'none' }">{{ task }}</span>
+  <div>
+    <input type="checkbox" v-model="localChecked">
+    <span :style="localChecked ? 'text-decoration: line-through;' : ''">{{ title }}</span>
   </div>
 </template>
 
 <script>
 export default {
   props: {
-    task: String,
-    isCheck: Boolean
+    title: String,
+    checked: Boolean
   },
-  methods: {
-    handleClick() {
-      this.$emit('toggle', this.task);
+  emits: ['update:checked'],
+  computed: {
+    localChecked: {
+      get() {
+        return this.checked;
+      },
+      set(value) {
+        this.$emit('update:checked', value);
+      }
     }
   }
 };
